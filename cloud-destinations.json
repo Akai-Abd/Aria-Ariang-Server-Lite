@@ -1,0 +1,12 @@
+{
+  "destinations": [
+    {
+      "id": "google-drive-msadd0dp",
+      "name": "Google Drive",
+      "remote": "gdrive",
+      "path": "Aria2 Download",
+      "enabled": true,
+      "icon": "☁️"
+    }
+  ]
+}
