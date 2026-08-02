@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 <p align="center">
-  <img src="assets/preview.png" alt="Aria-Ariang Server Lite Dashboard Preview" width="80%"/>
+  <img src="assets/preview.png" alt="Aria-Ariang Server Lite Dashboard Preview" width="100%"/>
 </p>
 
 
