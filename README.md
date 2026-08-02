@@ -54,7 +54,7 @@ Standard seedbox/download stacks often bundle heavy web dashboards, resource-int
 ### 2. Setup Environment Variables
 Clone this repository and copy the environment template:
 ```bash
-git clone https://github.com/your-username/Aria-Ariang-Server-Lite.git
+git clone https://github.com/Akai-Abd/Aria-Ariang-Server-Lite.git
 cd Aria-Ariang-Server-Lite
 cp .env.example .env
 ```
