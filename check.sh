@@ -43,7 +43,7 @@ echo -e "   Storage: ${RED}$USED${RESET} used / ${GREEN}$SIZE${RESET} total (Fre
 echo -e "\n${BLUE}🐳 CONTAINER STATUS${RESET}"
 echo -e "${GRAY}──────────────────────────────────────────────────────────────────${RESET}"
 printf "   %-20s %-20s\n" "CONTAINER" "STATUS"
-docker ps --format "{{.Names}}|{{.Status}}" | grep -E "aria2-pro|nginx-proxy" | while IFS='|' read -r NAME STATUS; do
+docker ps -a --format "{{.Names}}|{{.Status}}" | grep -E "aria2-pro|nginx-proxy" | while IFS='|' read -r NAME STATUS; do
     if [[ "$STATUS" == *"Up"* ]]; then
         printf "   %-20s ${GREEN}● Online${RESET}\n" "$NAME"
     else
