@@ -11,9 +11,16 @@ FILE_PATH="${3:-}"
 LOG_FILE="/config/upload.log"
 CLOUD_DEST_FILE="/config/cloud-destinations.json"
 RCLONE_CONF="/config/rclone/rclone.conf"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE" 2>/dev/null || echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
+}
+
+notify_telegram() {
+    if [ -f "$SCRIPT_DIR/telegram.sh" ]; then
+        "$SCRIPT_DIR/telegram.sh" "$1" "${2:-Markdown}" || true
+    fi
 }
 
 if [ -z "$FILE_PATH" ]; then
@@ -46,7 +53,14 @@ if [ "$CONTROL_COUNT" -gt 0 ]; then
     exit 0
 fi
 
-log "[INFO] Starting cloud upload for: $TOP_NAME (GID: $GID)"
+log "[INFO] Download complete for: $TOP_NAME (GID: $GID)"
+
+# Send Telegram notification for Download Complete
+notify_telegram "📥 *Download Complete*
+*File/Folder:* \`${TOP_NAME}\`
+*GID:* \`${GID}\`
+*Path:* \`${FINAL_TARGET}\`
+*Time:* \`$(date '+%Y-%m-%d %H:%M:%S')\`"
 
 # Read destination from cloud-destinations.json
 DEST=""
@@ -77,8 +91,16 @@ RCLONE_CMD+=("--stats" "5s" "--fast-list" "-v")
 log "[INFO] Executing: ${RCLONE_CMD[*]}"
 if "${RCLONE_CMD[@]}"; then
     log "[SUCCESS] Successfully uploaded $TOP_NAME to $DEST"
+    notify_telegram "☁️ *Upload Complete*
+*File/Folder:* \`${TOP_NAME}\`
+*Destination:* \`${DEST}\`
+*Time:* \`$(date '+%Y-%m-%d %H:%M:%S')\`"
     rm -rf "$FINAL_TARGET" 2>/dev/null || true
 else
     log "[ERROR] Failed to upload $TOP_NAME to $DEST"
+    notify_telegram "❌ *Upload Failed Report*
+*File/Folder:* \`${TOP_NAME}\`
+*Destination:* \`${DEST}\`
+*Time:* \`$(date '+%Y-%m-%d %H:%M:%S')\`"
     exit 1
 fi
