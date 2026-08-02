@@ -1,6 +1,6 @@
 # Aria-Ariang Server (Lite Version) ⚡
 
-> **Ponytail Edition**: Ultra-lightweight, high-performance download & cloud sync server powered by Docker, Aria2, AriaNg, and Nginx.
+> **Lite Edition**: Ultra-lightweight, high-performance download & cloud sync server powered by Docker, Aria2, AriaNg, and Nginx.
 
 [![Docker Compose](https://img.shields.io/badge/Docker%20Compose-v2-blue?logo=docker)](https://docs.docker.com/compose/)
 [![RAM Usage](https://img.shields.io/badge/RAM%20Footprint-~30MB%20--%2060MB-brightgreen)](#performance--resource-footprint)
