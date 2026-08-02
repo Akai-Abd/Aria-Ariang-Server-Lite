@@ -66,8 +66,8 @@ cp .env.example .env
 Edit `.env` to configure your RPC secret and secure passwords:
 ```env
 RPC_SECRET=YourSuperSecretRPCKey
-PUID=1000
-PGID=1000
+PUID=1001
+PGID=1001
 TZ=UTC
 ```
 
