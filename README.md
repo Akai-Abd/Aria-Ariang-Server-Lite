@@ -6,6 +6,10 @@
 [![RAM Usage](https://img.shields.io/badge/RAM%20Footprint-~30MB%20--%2060MB-brightgreen)](#performance--resource-footprint)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
+<p align="center">
+  <img src="assets/preview.png" alt="Aria-Ariang Server Lite Dashboard Preview" width="100%"/>
+</p>
+
 ---
 
 ## 💡 Why Lite?
