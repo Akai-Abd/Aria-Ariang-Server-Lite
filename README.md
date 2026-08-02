@@ -5,6 +5,7 @@
 [![Docker Compose](https://img.shields.io/badge/Docker%20Compose-v2-blue?logo=docker)](https://docs.docker.com/compose/)
 [![RAM Usage](https://img.shields.io/badge/RAM%20Footprint-~30MB%20--%2060MB-brightgreen)](#performance--resource-footprint)
 [![Telegram Bot](https://img.shields.io/badge/Telegram%20Bot-Notifications-blue?logo=telegram)](https://core.telegram.org/bots)
+[![Wiki Docs](https://img.shields.io/badge/Wiki-Documentation-purple?logo=github)](https://github.com/Akai-Abd/Aria-Ariang-Server-Lite/wiki)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 <p align="center">
@@ -146,6 +147,20 @@ To enable auto-uploading completed downloads to Google Drive, OneDrive, Mega, S3
 1. Configure your Rclone remotes in `./rclone/rclone.conf`.
 2. Map your destination remotes in `./cloud-destinations.json`.
 3. When Aria2 finishes a download, `./script/upload.sh` automatically transfers the file in the background and sends a Telegram notification.
+
+---
+
+## 🛠️ Troubleshooting & FAQ
+
+For full diagnostic steps and error solutions, visit the official **[Troubleshooting Guide Wiki Page](https://github.com/Akai-Abd/Aria-Ariang-Server-Lite/wiki/Troubleshooting-Guide)**.
+
+| Issue | Quick Fix |
+| :--- | :--- |
+| **AriaNg Disconnected / RPC Error** | Check `RPC_SECRET` in `.env` and verify RPC Address is `/jsonrpc`. |
+| **Rclone Auto-Upload Fails** | Run `docker exec -it aria2-pro cat /config/upload.log` and verify `./cloud-destinations.json`. |
+| **Telegram Alerts Not Arriving** | Send `/start` to your bot, verify `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` in `.env`, and run `./script/telegram.sh "test"`. |
+| **Nginx 502 Bad Gateway / 401** | Re-create `.htpasswd` via `htpasswd -c .htpasswd admin` and run `docker compose restart`. |
+| **Slow BT Downloads / 0 Seeds** | Update BT trackers by running `./script/tracker.sh`. |
 
 ---
 

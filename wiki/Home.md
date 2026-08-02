@@ -15,6 +15,9 @@ Welcome to the official documentation for **Aria-Ariang-Server-Lite** — an ult
 - 🤖 **[Telegram Bot Notifications](Telegram-Bot-Notifications)**
   Real-time alerts for Download Complete, Upload Complete, Download/Upload Errors, and System Health issue reports.
 
+- 🛠️ **[Troubleshooting Guide](Troubleshooting-Guide)**
+  Quick fixes for AriaNg RPC disconnection, Rclone upload failures, Telegram bot issues, Nginx 502/401 errors, and slow BT speeds.
+
 - 🩺 **[System Health & Maintenance](System-Health-&-Maintenance)**
   Using `./check.sh`, automated tracker updates, configuration backups, disk space cleanup, and memory optimization.
 
