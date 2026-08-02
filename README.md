@@ -112,3 +112,11 @@ To enable auto-uploading completed downloads to Google Drive, OneDrive, Mega, S3
 ## 📄 License
 
 This project is open-source under the [MIT License](LICENSE).
+
+---
+
+<p align="center">
+  Built with ❤️ by <b>ABDURRAHMAN</b><br/>
+  ⭐ <i>Star this repository if you find it helpful!</i>
+</p>
+
