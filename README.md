@@ -5,7 +5,11 @@
 [![Docker Compose](https://img.shields.io/badge/Docker%20Compose-v2-blue?logo=docker)](https://docs.docker.com/compose/)
 [![RAM Usage](https://img.shields.io/badge/RAM%20Footprint-~30MB%20--%2060MB-brightgreen)](#performance--resource-footprint)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-![Aria-Ariang Server Lite Dashboard Preview](assets/preview.png)
+
+<p align="center">
+  <img src="assets/preview.png" alt="Aria-Ariang Server Lite Dashboard Preview" width="80%"/>
+</p>
+
 
 ---
 
