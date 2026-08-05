@@ -55,13 +55,48 @@ Standard seedbox/download stacks often bundle heavy web dashboards, resource-int
 
 ---
 
-## ⚡ Quick Start
+## 🚀 Installation & Deployment Guide
 
-### Option A: Docker Hub (Recommended)
+### 📋 Prerequisites
+- **Docker** (v20.10+) and **Docker Compose v2** installed on your server.
+- Open port **80** (HTTP) on your server firewall.
+
+---
+
+### Option A: Docker Hub Deployment (Recommended & Fastest)
 
 [![Docker Hub](https://img.shields.io/docker/pulls/baba2580/aria-ariang-lite?logo=docker&label=Docker%20Hub)](https://hub.docker.com/r/baba2580/aria-ariang-lite)
 
-One command to deploy — no `git clone` needed:
+Deploy instantly using the pre-built multi-architecture Docker image (`baba2580/aria-ariang-lite:latest`) — no `git clone` or local building required.
+
+#### Method 1: Using Docker Compose (Recommended)
+
+1. **Download the Docker Compose configuration:**
+   ```bash
+   mkdir -p aria-lite && cd aria-lite
+   curl -O https://raw.githubusercontent.com/Akai-Abd/Aria-Ariang-Server-Lite/main/docker-compose.docker-hub.yml
+   ```
+
+2. **(Optional) Create a `.env` file to customize credentials:**
+   ```bash
+   cat <<EOF > .env
+   RPC_SECRET=YourSuperSecretRPCKey
+   BASIC_AUTH_USER=admin
+   BASIC_AUTH_PASS=YourStrongPassword
+   TZ=Asia/Kolkata
+   TELEGRAM_BOT_TOKEN=
+   TELEGRAM_CHAT_ID=
+   EOF
+   ```
+
+3. **Start the container:**
+   ```bash
+   docker compose -f docker-compose.docker-hub.yml up -d
+   ```
+
+#### Method 2: Using Docker CLI (`docker run`)
+
+Run a single command to create persistent volumes and launch the server:
 
 ```bash
 docker run -d \
@@ -77,61 +112,66 @@ docker run -d \
   baba2580/aria-ariang-lite:latest
 ```
 
-Or with Docker Compose:
-```bash
-curl -O https://raw.githubusercontent.com/Akai-Abd/Aria-Ariang-Server-Lite/main/docker-compose.docker-hub.yml
-docker compose -f docker-compose.docker-hub.yml up -d
-```
+---
+
+### Option B: Build from Source (Git Clone)
+
+For full control over source files, scripts, and local custom builds:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Akai-Abd/Aria-Ariang-Server-Lite.git
+   cd Aria-Ariang-Server-Lite
+   ```
+
+2. **Configure Environment Variables:**
+   ```bash
+   cp .env.example .env
+   ```
+   Edit `.env` to set your credentials and optional Telegram notifications:
+   ```env
+   RPC_SECRET=YourSuperSecretRPCKey
+   BASIC_AUTH_USER=admin
+   BASIC_AUTH_PASS=YourStrongPassword
+   TZ=Asia/Kolkata
+   
+   # Optional Telegram Bot Alerts
+   TELEGRAM_BOT_TOKEN=123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ
+   TELEGRAM_CHAT_ID=123456789
+   ```
+
+3. **Generate Nginx Web Authentication:**
+   ```bash
+   htpasswd -c .htpasswd admin
+   ```
+
+4. **Build & Start the Stack:**
+   ```bash
+   docker compose up -d
+   ```
+
+---
+
+### ⚙️ Environment Variables Reference
 
 | Environment Variable | Default | Description |
 | :--- | :--- | :--- |
-| `RPC_SECRET` | `changeme` | Aria2 RPC authentication secret |
-| `BASIC_AUTH_USER` | `admin` | Nginx basic auth username |
-| `BASIC_AUTH_PASS` | `changeme` | Nginx basic auth password |
-| `TZ` | `UTC` | Timezone |
-| `PUID` | `1000` | User ID for file ownership |
-| `PGID` | `1000` | Group ID for file ownership |
-| `TELEGRAM_BOT_TOKEN` | *(empty)* | Optional Telegram bot token |
-| `TELEGRAM_CHAT_ID` | *(empty)* | Optional Telegram chat ID |
+| `RPC_SECRET` | `changeme` | Aria2 RPC authentication secret token |
+| `BASIC_AUTH_USER` | `admin` | Nginx Web UI basic auth username |
+| `BASIC_AUTH_PASS` | `changeme` | Nginx Web UI basic auth password |
+| `TZ` | `UTC` | Server Timezone (e.g. `Asia/Kolkata`, `America/New_York`) |
+| `PUID` | `1000` | User ID for file permissions |
+| `PGID` | `1000` | Group ID for file permissions |
+| `TELEGRAM_BOT_TOKEN` | *(empty)* | Optional Telegram bot token for instant alerts |
+| `TELEGRAM_CHAT_ID` | *(empty)* | Optional Telegram chat ID for instant alerts |
 
-### Option B: Git Clone (Advanced)
+---
 
-For full control over config files and scripts:
+### ✅ Post-Installation Verification
 
-#### 1. Prerequisites
-- Docker & Docker Compose v2 installed.
-- Domain name with A record pointing to your server IP (optional for SSL).
-
-#### 2. Setup Environment Variables
-Clone this repository and copy the environment template:
-```bash
-git clone https://github.com/Akai-Abd/Aria-Ariang-Server-Lite.git
-cd Aria-Ariang-Server-Lite
-cp .env.example .env
-```
-Edit `.env` to configure your RPC secret, passwords, and optional Telegram Bot alerts:
-```env
-RPC_SECRET=YourSuperSecretRPCKey
-PUID=1001
-PGID=1001
-TZ=Asia/Kolkata
-DOMAIN=nexly.dpdns.org
-
-# Optional Telegram Bot Alerts
-TELEGRAM_BOT_TOKEN=123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ
-TELEGRAM_CHAT_ID=123456789
-```
-
-#### 3. Setup Web Authentication
-Generate your Nginx Basic Auth `.htpasswd` file:
-```bash
-htpasswd -c .htpasswd admin
-```
-
-#### 4. Start the Stack
-```bash
-docker compose up -d
-```
+1. **Web Dashboard**: Open `http://<your-server-ip>/` in your browser. Log in with your `BASIC_AUTH_USER` and `BASIC_AUTH_PASS`.
+2. **AriaNg Connection**: Ensure AriaNg shows **Connected** status in the bottom left corner (uses `/jsonrpc` automatically).
+3. **Direct Downloads**: Browse downloads directly at `http://<your-server-ip>/download/`.
 
 ---
 
@@ -188,6 +228,35 @@ To enable auto-uploading completed downloads to Google Drive, OneDrive, Mega, S3
 1. Configure your Rclone remotes in `./rclone/rclone.conf`.
 2. Map your destination remotes in `./cloud-destinations.json`.
 3. When Aria2 finishes a download, `./script/upload.sh` automatically transfers the file in the background and sends a Telegram notification.
+
+---
+
+## 🔄 Updating Guide
+
+Keep your deployment up-to-date with the latest Docker Hub image or Git updates.
+
+### Option A: Docker Hub Update (Recommended)
+
+**With Docker Compose:**
+```bash
+docker compose -f docker-compose.docker-hub.yml pull
+docker compose -f docker-compose.docker-hub.yml up -d
+```
+
+**With Docker Run:**
+```bash
+docker pull baba2580/aria-ariang-lite:latest
+docker stop aria-ariang-lite
+docker rm aria-ariang-lite
+# Re-run your docker run command
+```
+
+### Option B: Git Update
+
+```bash
+git pull
+docker compose up -d --build
+```
 
 ---
 
