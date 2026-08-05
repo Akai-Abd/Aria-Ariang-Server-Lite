@@ -10,6 +10,10 @@ services:
       - TZ=${TZ}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - MAX_DISK_USAGE_PCT=${MAX_DISK_USAGE_PCT:-85}
+      - RETENTION_DAYS=${RETENTION_DAYS:-3}
+      - ENABLE_AUTO_CLEAN=${ENABLE_AUTO_CLEAN:-true}
+
     volumes:
       - ./aria2:/config
       - ./script:/config/script

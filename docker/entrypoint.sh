@@ -11,6 +11,9 @@ BASIC_AUTH_PASS="${BASIC_AUTH_PASS:-changeme}"
 PUID="${PUID:-1000}"
 PGID="${PGID:-1000}"
 TZ="${TZ:-UTC}"
+ENABLE_AUTO_CLEAN="${ENABLE_AUTO_CLEAN:-true}"
+CRON_SCHEDULE="${CRON_SCHEDULE:-0 */6 * * *}"
+
 
 echo "╔════════════════════════════════════════════════╗"
 echo "║   Aria-Ariang Lite Server (All-in-One)        ║"
@@ -84,6 +87,14 @@ if ! kill -0 "$ARIA2_PID" 2>/dev/null; then
 fi
 
 echo "[entrypoint] aria2c started (PID: $ARIA2_PID)"
+
+# --- Start crond for storage retention auto-cleaner ---
+if [ "$ENABLE_AUTO_CLEAN" = "true" ]; then
+    echo "[entrypoint] Setting up storage retention cron (${CRON_SCHEDULE})..."
+    mkdir -p /var/spool/cron/crontabs
+    echo "${CRON_SCHEDULE} /config/script/clean_retention.sh >> /config/clean_retention.log 2>&1" > /var/spool/cron/crontabs/root
+    crond -b -l 2 2>/dev/null || true
+fi
 
 # --- Start nginx in foreground ---
 echo "[entrypoint] Starting nginx..."

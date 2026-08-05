@@ -164,6 +164,10 @@ For full control over source files, scripts, and local custom builds:
 | `PGID` | `1000` | Group ID for file permissions |
 | `TELEGRAM_BOT_TOKEN` | *(empty)* | Optional Telegram bot token for instant alerts |
 | `TELEGRAM_CHAT_ID` | *(empty)* | Optional Telegram chat ID for instant alerts |
+| `MAX_DISK_USAGE_PCT` | `85` | Storage threshold percentage to trigger auto-cleanup |
+| `RETENTION_DAYS` | `3` | Age (in days) of completed downloads to delete when threshold is hit |
+| `ENABLE_AUTO_CLEAN` | `true` | Enable background auto-cleaner cron every 6 hours (`true`/`false`) |
+
 
 ---
 
@@ -228,6 +232,19 @@ To enable auto-uploading completed downloads to Google Drive, OneDrive, Mega, S3
 1. Configure your Rclone remotes in `./rclone/rclone.conf`.
 2. Map your destination remotes in `./cloud-destinations.json`.
 3. When Aria2 finishes a download, `./script/upload.sh` automatically transfers the file in the background and sends a Telegram notification.
+
+---
+
+## 🧹 Storage Retention & Auto-Cleaner
+
+To prevent disk fill-ups on small VPS instances, a zero-overhead background retention cleaner (`/config/script/clean_retention.sh`) runs every 6 hours inside the container:
+
+* **Automatic Cleanup**: If disk usage reaches **85%** (`MAX_DISK_USAGE_PCT`), completed files older than **3 days** (`RETENTION_DAYS`) and orphaned `.aria2` control files are purged automatically.
+* **Telegram Alerts**: Generates a detailed summary notification reporting freed space and current usage.
+* **Manual Execution**: Run cleanup immediately inside the container at any time:
+  ```bash
+  docker exec -it aria-ariang-lite /config/script/clean_retention.sh --force
+  ```
 
 ---
 
