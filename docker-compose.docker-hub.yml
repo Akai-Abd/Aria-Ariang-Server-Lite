@@ -1,0 +1,22 @@
+# Aria-Ariang Lite - Docker Hub Quick Deploy
+# Usage: docker compose -f docker-compose.docker-hub.yml up -d
+
+services:
+  aria-ariang-lite:
+    image: baba2580/aria-ariang-lite:latest
+    container_name: aria-ariang-lite
+    environment:
+      - RPC_SECRET=${RPC_SECRET:-changeme}
+      - BASIC_AUTH_USER=${BASIC_AUTH_USER:-admin}
+      - BASIC_AUTH_PASS=${BASIC_AUTH_PASS:-changeme}
+      - TZ=${TZ:-UTC}
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID:-}
+    volumes:
+      - ./config:/config
+      - ./downloads:/downloads
+    ports:
+      - "80:80"
+    restart: always

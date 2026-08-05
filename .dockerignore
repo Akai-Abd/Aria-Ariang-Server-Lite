@@ -1,0 +1,39 @@
+# Exclude version control
+.git
+.gitattributes
+.gitignore
+
+# Exclude secrets and runtime files
+.env
+.env.example
+.htpasswd
+certs/
+rclone/rclone.conf
+
+# Exclude downloads and runtime data
+downloads/
+aria2/aria2.session
+aria2/dht.dat
+aria2/dht6.dat
+aria2/upload.lock
+aria2/upload.log
+aria2/tracker.log
+aria2/rclone
+
+# Exclude docs and assets (not needed in image)
+README.md
+LICENSE
+assets/
+
+# Exclude docker-compose files (not needed in image)
+docker-compose.yml
+docker-compose.docker-hub.yml
+
+# Exclude check script (host-level tool, not for container)
+check.sh
+
+# Exclude build artifacts
+*.log
+.backups/
+wiki/
+repo_wiki/

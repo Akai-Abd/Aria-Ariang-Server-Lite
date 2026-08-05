@@ -57,11 +57,52 @@ Standard seedbox/download stacks often bundle heavy web dashboards, resource-int
 
 ## ⚡ Quick Start
 
-### 1. Prerequisites
+### Option A: Docker Hub (Recommended)
+
+[![Docker Hub](https://img.shields.io/docker/pulls/baba2580/aria-ariang-lite?logo=docker&label=Docker%20Hub)](https://hub.docker.com/r/baba2580/aria-ariang-lite)
+
+One command to deploy — no `git clone` needed:
+
+```bash
+docker run -d \
+  --name aria-ariang-lite \
+  -p 80:80 \
+  -e RPC_SECRET=YourSuperSecretRPCKey \
+  -e BASIC_AUTH_USER=admin \
+  -e BASIC_AUTH_PASS=YourStrongPassword \
+  -e TZ=Asia/Kolkata \
+  -v ./config:/config \
+  -v ./downloads:/downloads \
+  --restart always \
+  baba2580/aria-ariang-lite:latest
+```
+
+Or with Docker Compose:
+```bash
+curl -O https://raw.githubusercontent.com/Akai-Abd/Aria-Ariang-Server-Lite/main/docker-compose.docker-hub.yml
+docker compose -f docker-compose.docker-hub.yml up -d
+```
+
+| Environment Variable | Default | Description |
+| :--- | :--- | :--- |
+| `RPC_SECRET` | `changeme` | Aria2 RPC authentication secret |
+| `BASIC_AUTH_USER` | `admin` | Nginx basic auth username |
+| `BASIC_AUTH_PASS` | `changeme` | Nginx basic auth password |
+| `TZ` | `UTC` | Timezone |
+| `PUID` | `1000` | User ID for file ownership |
+| `PGID` | `1000` | Group ID for file ownership |
+| `TELEGRAM_BOT_TOKEN` | *(empty)* | Optional Telegram bot token |
+| `TELEGRAM_CHAT_ID` | *(empty)* | Optional Telegram chat ID |
+
+### Option B: Git Clone (Advanced)
+
+For full control over config files and scripts:
+
+#### 1. Prerequisites
 - Docker & Docker Compose v2 installed.
 - Domain name with A record pointing to your server IP (optional for SSL).
 
-### 2. Setup Environment Variables
+#### 2. Setup Environment Variables
 Clone this repository and copy the environment template:
 ```bash
 git clone https://github.com/Akai-Abd/Aria-Ariang-Server-Lite.git
@@ -81,13 +122,13 @@ TELEGRAM_BOT_TOKEN=123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ
 TELEGRAM_CHAT_ID=123456789
 ```
 
-### 3. Setup Web Authentication
+#### 3. Setup Web Authentication
 Generate your Nginx Basic Auth `.htpasswd` file:
 ```bash
 htpasswd -c .htpasswd admin
 ```
 
-### 4. Start the Stack
+#### 4. Start the Stack
 ```bash
 docker compose up -d
 ```
